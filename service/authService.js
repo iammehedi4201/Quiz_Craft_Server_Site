@@ -1,7 +1,7 @@
-import { User } from "../models/userModel.js";
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import { env } from "process";
+import jwt from "jsonwebtoken";
+import { User } from "../models/userModel.js";
+import { env } from "../config/env.js";
 
 const createUserToDB = async (payload) => {
   //: Logic to create user in DB
@@ -47,8 +47,8 @@ const login = async (payload) => {
 
   //: create access token
   const jwtPayLoad = {
-    email : user?.email,
-    role  : user?.role,
+    email: user?.email,
+    role: user?.role,
   };
   const accessToken = jwt.sign(jwtPayLoad, env.jwt_Access_secret_key, {
     expiresIn: "30d",

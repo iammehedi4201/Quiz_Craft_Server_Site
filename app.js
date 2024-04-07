@@ -1,13 +1,14 @@
-import express from "express";
 import cors from "cors";
-import { env } from "./config/env.js";
+import express from "express";
 import connectDatabase from "./config/database.js";
+import { env } from "./config/env.js";
 import router from "./routes/routes.js";
-import bodyParser from "body-parser";
 
 const app = express();
 
-app.use(cors({ origin: "*", credentials: true }));
+app.use(
+  cors({ origin: "https://quiz-craft-client.vercel.app", credentials: true })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -25,10 +26,12 @@ const errorHandler = (err, req, res, next) => {
     stack: process.env.NODE_ENV === "development" ? err.stack : {},
   });
 };
-;
-
 app.use(errorHandler);
 
 app.listen(env.port, () => {
   console.log(`Listening on port ${env.port}`);
+});
+
+app.get("/", (req, res) => {
+  res.send("Hello Quiz App!");
 });
